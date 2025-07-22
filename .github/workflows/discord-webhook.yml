@@ -2,19 +2,22 @@ name: Notify Discord on Push
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  notify:
+  discord_notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Discord Notification
-        uses: Ilshidur/action-discord@master
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: |
-            ✅ **Library Project Status Update**
-            🔁 Commit to `main` branch
-            📄 Message: ${{ github.event.head_commit.message }}
-            🔗 [View Repo](https://github.com/Trckz900259/Library-status-notifier)
+      - name: Send status to Discord
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SLACK_USERNAME: "Library Status Bot"
+          SLACK_ICON_EMOJI: ":books:"
+          SLACK_COLOR: "#00FF00"
+          SLACK_MESSAGE: |
+            ✅ **Library System Update**
+            📌 Repository: ${{ github.repository }}
+            🔁 Commit: ${{ github.event.head_commit.message }}
+            🚀 Author: ${{ github.actor }}
+            🕒 Time: ${{ github.event.head_commit.timestamp }}
