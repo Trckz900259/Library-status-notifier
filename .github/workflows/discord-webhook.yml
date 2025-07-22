@@ -6,12 +6,15 @@ on:
       - main
 
 jobs:
-  discord_notify:
+  notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send push notification to Discord
-        run: |
-          curl -H "Content-Type: application/json" ^
-          -X POST ^
-          -d "{\"content\": \"📦 **Library Project Update:**\n✅ New push to \`main\`\n📁 Repo: https://github.com/Trckz900259/Library-status-notifier\n🕒 $(date)\"}" ^
-          https://discord.com/api/webhooks/1397115454346235954/MGy4OHMzfG04z6C_W4tK-b6lXdb-87lWTackggQCycRzNBeAl0CuzHyOhY8lZARDrZJ
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            ✅ **Library Project Status Update**
+            🔁 Commit to `main` branch
+            📄 Message: ${{ github.event.head_commit.message }}
+            🔗 [View Repo](https://github.com/Trckz900259/Library-status-notifier)
