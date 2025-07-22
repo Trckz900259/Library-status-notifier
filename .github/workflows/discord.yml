@@ -1,0 +1,24 @@
+name: Discord Status Pinger
+
+on:
+  push:
+  schedule:
+    - cron: '0 */8 * * *'  # Every 8 hours
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send status to Discord
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            📢 **Library System Project Update**
+            - 🛠️ Mode: Full Focus, Overclocked
+            - 🚧 MVP Status: 48% complete
+            - 📦 Full System: 12% complete
+            - 📅 ETA (MVP): Aug 6, 2025
+            - 📅 ETA (Full): Sep 12, 2025
+            - 🧠 Update sent from GitHub Actions!
